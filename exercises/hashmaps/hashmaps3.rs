@@ -14,7 +14,6 @@
 
 // Execute `rustlings hint hashmaps3` or use the `hint` watch subcommand for a hint.
 
-// I AM NOT DONE
 
 use std::collections::HashMap;
 
@@ -40,6 +39,23 @@ fn build_scores_table(results: String) -> HashMap<String, Team> {
         // will be number of goals conceded from team_2, and similarly
         // goals scored by team_2 will be the number of goals conceded by
         // team_1.
+
+        //注意scores.entry 是可变引用，一个作用域内不能有多个可变引用
+       let  t1= scores.entry(team_1_name.clone()).and_modify(|x| x.goals_scored+=team_1_score).and_modify(|x| x.goals_conceded+=team_2_score).or_insert(Team { name: team_1_name.clone(), goals_scored: team_1_score, goals_conceded: team_2_score });
+
+
+        println!(
+            "team {} score is {},conceded is {}",
+            t1.name,t1.goals_scored, t1.goals_conceded
+        );
+
+        let  t2= scores.entry(team_2_name.clone()).and_modify(|x| x.goals_scored+=team_2_score).and_modify(|x| x.goals_conceded+=team_1_score).or_insert(Team { name: team_2_name.clone(), goals_scored: team_2_score, goals_conceded: team_1_score });
+
+
+        println!(
+            "team {} score is {},conceded is {}",
+            t2.name,t2.goals_scored, t2.goals_conceded
+        );
     }
     scores
 }
